@@ -31,15 +31,41 @@ public class MainController {
 
 
     @GetMapping("/products")
-    public String listProduct(Model model, @RequestParam(name = "page",defaultValue = "1")Integer page) {
+    public String listProduct(Model model, @RequestParam(name = "page", defaultValue = "1") Integer page,
+                              @RequestParam(name = "categoryId", defaultValue = "-1") Integer categoryId,
+                              @RequestParam(name = "subCategoryId", defaultValue = "-1") Integer subCategoryId) {
         final int pageSize = 20;
         //pageable index từ 0
-        Page<Product>products = productRepository.findAll(PageRequest.of(page,pageSize));
-        List<Category>categories = categoryRepository.findAll();
+        Page<Product> products;
 
-        model.addAttribute("products",products);
-        model.addAttribute("categories",categories);
-        model.addAttribute("totalPage",products.getTotalPages());
+
+        if (subCategoryId != -1) {
+            products = productRepository.findBySubCategoryId(subCategoryId, PageRequest.of(page - 1, pageSize));
+
+            //khi xài page ==> để lấy dc size page ==> objPage.getContent().size()
+            if (products.getContent().size() == 0) {
+                products = productRepository.findBySubCategoryId(subCategoryId, PageRequest.of(0, pageSize));
+                page = 1;
+            }
+
+        } else if (categoryId != -1) {
+            products = productRepository.findByCategoryId(categoryId, PageRequest.of(page - 1, pageSize));
+
+            //khi xài page ==> để lấy dc size page ==> objPage.getContent().size()
+            if (products.getContent().size() == 0) {
+                products = productRepository.findBySubCategoryId(subCategoryId, PageRequest.of(0, pageSize));
+                page = 1;
+            }
+
+        } else {
+            products = productRepository.findAll(PageRequest.of(page - 1, pageSize));
+        }
+        List<Category> categories = categoryRepository.findAll();
+
+        model.addAttribute("curPage", page);
+        model.addAttribute("products", products);
+        model.addAttribute("categories", categories);
+        model.addAttribute("totalPage", products.getTotalPages());
         return "listProduct";
     }
 

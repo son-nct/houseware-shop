@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       th:fragment="main-fragment (title, otherStaticResources, nav, mainContent, footer)">
 <head>
+    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -22,15 +23,12 @@
 
 
 <nav th:replace="${nav} ?: ~{}">
-
 </nav>
 
 <article th:replace="${mainContent} ?: ~{}">
-
 </article>
 
 <footer th:insert="${footer} ?: ~{}">
-    <p>Footer</p>
 </footer>
 
 
