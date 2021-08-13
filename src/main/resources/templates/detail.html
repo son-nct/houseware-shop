@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+
+<!--  main-fragment (title, otherStaticResources, header, nav, mainContent, footer)  -->
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/main-layout :: main-fragment(
+                                                ~{::title},
+                                                ~{:: #detail-static-resources},
+                                                ~{:: #detail-nav},
+                                                ~{:: #detail-main-content},
+                                                ~{:: #detail-footer}
+                                               )}">
+
+<head>
+    <title>Title of Home Page</title>
+
+    <th:block id="detail-static-resources">
+
+        <script type="text/javascript" src="../static/home.js" th:src="@{/home.js}"></script>
+        <link rel="stylesheet" type="text/css" href="../static/home.css" th:href="@{/home.css}"/>
+
+    </th:block>
+
+</head>
+<body>
+<div id="detail-nav" th:replace="~{/fragments/app-fragments :: nav-default}">
+    Home Nav
+</div>
+<div id="detail-main-content">
+<div class="container" style="margin-top: 5rem">
+    <div class="row mt-5">
+        <div class="col-md-5 mt-5">
+
+            <div class="mySlides" style="display: block;">
+                <div class="numbertext">1 / 6</div>
+                <img th:src="@{/images/tools/1_0.jpg}" class="w-100">
+            </div>
+
+            <div class="mySlides" style="display: none;">
+                <div class="numbertext">2 / 6</div>
+                <img th:src="@{/images/tools/1_1.jpg}" class="w-100">
+            </div>
+
+            <div class="mySlides" style="display: none;">
+                <div class="numbertext">3 / 6</div>
+                <img th:src="@{/images/tools/1_2.jpg}" class="w-100">
+            </div>
+
+            <div class="mySlides" style="display: none;">
+                <div class="numbertext">4 / 6</div>
+                <img th:src="@{/images/tools/1_3.jpg}" class="w-100">
+            </div>
+
+            <div class="mySlides" style="display: none;">
+                <div class="numbertext">5 / 6</div>
+                <img th:src="@{/images/tools/1_4.jpg}" class="w-100">
+            </div>
+
+            <div class="mySlides" style="display: none;">
+                <div class="numbertext">6 / 6</div>
+                <img th:src="@{/images/tools/1_5.jpg}" class="w-100">
+            </div>
+
+
+            <!-- Next and previous buttons -->
+            <a class="prevs" onclick="plusSlides(-1)">❮</a>
+            <a class="nexts" onclick="plusSlides(1)">❯</a>
+
+
+            <!-- Thumbnail images -->
+            <div class="row-image">
+
+                <div class="column">
+                    <img class="demo cursor w-100 active" th:src="@{/images/tools/1_0.jpg}" onclick="currentSlide(1)">
+                </div>
+
+                <div class="column">
+                    <img class="demo cursor w-100" th:src="@{/images/tools/1_1.jpg}" onclick="currentSlide(2)">
+                </div>
+
+                <div class="column">
+                    <img class="demo cursor w-100" th:src="@{/images/tools/1_2.jpg}" onclick="currentSlide(3)">
+                </div>
+
+                <div class="column">
+                    <img class="demo cursor w-100" th:src="@{/images/tools/1_3.jpg}" onclick="currentSlide(4)">
+                </div>
+
+                <div class="column">
+                    <img class="demo cursor w-100" th:src="@{/images/tools/1_4.jpg}" onclick="currentSlide(5)">
+                </div>
+
+                <div class="column">
+                    <img class="demo cursor w-100" th:src="@{/images/tools/1_5.jpg}" onclick="currentSlide(6)">
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-6 pl-5">
+            <h3 class="mt-5">Repair Tool
+
+                <sup>
+                        <span class="badge badge-success">
+
+
+                            freeShip
+
+
+                        </span>
+                </sup>
+
+            </h3>
+            <p class="my-0"><b style="font-size: 25px;color: #f60">$ 16.61</b></p>
+            <hr>
+            <h6 class="mt-5"><b>Code of Product: HW-01</b></h6>
+            <hr>
+            <p class="mt-4"><b>Infomation of Product:</b><br><br>86pcs M3-M8 Hand Riveter Nut Rivet Gun Kit Threaded
+                Nut Rive Tool with Rivnut Nutsert Riveting Kit for Household Repair Tools</p>
+            <hr>
+            <a href="#" class="btn btn-outline-danger w-50 mt-4"><i class="fas fa-cart-plus mr-2"></i>Add to
+                Cart</a>
+            <a href="./checkout.html" class="btn btn-outline-success w-25 mt-4 ml-2">Buy Now<i
+                    class="fas fa-money-check-alt ml-2" style="color: green"></i></a>
+        </div>
+    </div>
+</div>
+</div>
+<div id="detail-footer" th:replace="~{/fragments/app-fragments :: copyright}">
+    Footer
+</div>
+
+
+<script src="js/gallery.js" type="text/javascript"></script>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
