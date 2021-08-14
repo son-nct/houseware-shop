@@ -11,7 +11,7 @@
                                                )}">
 
 <head>
-    <title>Title of Home Page</title>
+    <title>Product Page</title>
 
     <th:block id="product-static-resources">
 
@@ -115,10 +115,11 @@
                             <a th:href="@{'/detail?productId='+*{product.id}}"><img th:src="@{'/images/'+*{product.imageUrl}}"
                                                                                     style="border: 1px solid #ededed;"
                                                                                     class="card-img-top pt-4" alt="..."></a>
+
                             <div class="card-body pt-3">
                                 <a th:href="@{'/add-to-cart?productId='+*{product.id}}" class="btn btn-outline-danger"><i class="fas fa-cart-plus mr-2"></i>Add to
                                     cart</a>
-                                <a href="./detail.html" class="card-title text-center mb-1 mt-2"
+                                <a th:href="@{'/detail?productId='+*{product.id}}" class="card-title text-center mb-1 mt-2"
                                    th:text="*{product.name}">Repair Tool</a>
                                 <p class="text-center my-0" style="color: #f60" th:text="'$'+*{product.price}">
                                     $16.61</p>

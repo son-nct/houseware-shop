@@ -11,7 +11,7 @@
                                                )}">
 
 <head>
-    <title>Home Page</title>
+    <title>Title of Home Page</title>
 
     <th:block id="home-static-resources">
 
@@ -22,13 +22,9 @@
 
 </head>
 <body>
-<!--Syntax fragment
 
-th:replace="~{templageName::fragmentName}"
 
--->
-
-<div id="home-nav"  th:replace="~{/fragments/app-fragments :: nav-default}">
+<div id="home-nav" th:replace="~{/fragments/app-fragments :: nav-default}">
     Home Nav
 </div>
 
@@ -37,7 +33,7 @@ th:replace="~{templageName::fragmentName}"
         <div class="row">
             <a href="#">
                 <img class="img-fluid" style="margin-top: 4.5rem;;" th:src="@{/images/store_coupon.png}"
-                     alt="images/store_coupon.png}">
+                     alt="images/store_coupon.png">
             </a>
         </div>
     </div>
@@ -556,7 +552,7 @@ th:replace="~{templageName::fragmentName}"
     <div class="container-fluid">
 
         <!--New Arrivals-->
-        <div class="row" style="background-image: url('images/new_arrival.jpg}')">
+        <div class="row" style="background-image: url('images/new_arrival.jpg')">
             <h1 class="mx-auto mt-1" style="color: white;">New Arrivals</h1>
 
             <div class="col-md-12">

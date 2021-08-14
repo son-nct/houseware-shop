@@ -1,8 +1,10 @@
 package com.example.shop.controller;
 
 import com.example.shop.entity.Category;
+import com.example.shop.entity.Image;
 import com.example.shop.entity.Product;
 import com.example.shop.repository.CategoryRepository;
+import com.example.shop.repository.ImageRepository;
 import com.example.shop.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,6 +22,9 @@ public class MainController {
 
     @Autowired
     ProductRepository productRepository;
+
+    @Autowired
+    ImageRepository imageRepository;
 
     @Autowired
     CategoryRepository categoryRepository;
@@ -70,7 +75,15 @@ public class MainController {
     }
 
     @GetMapping("/detail")
-    public String detail() {
+    public String detail(Model model, @RequestParam("productId")Long productId) {
+        Product product = productRepository.getProductById(productId);
+        List<Image>images = imageRepository.getImageByProductId(productId);
+
+        model.addAttribute("images",images);
+        model.addAttribute("mainImg",product.getImageUrl());
+        model.addAttribute("product",product);
+        model.addAttribute("totalImg",images.size());
+
         return "detail";
     }
 
