@@ -77,10 +77,12 @@ public class MainController {
     @GetMapping("/detail")
     public String detail(Model model, @RequestParam("productId")Long productId) {
         Product product = productRepository.getProductById(productId);
-        List<Image>images = imageRepository.getImageByProductId(productId);
+        Image image = new Image();
+        image.setImageUrl(product.getImageUrl());
 
+        List<Image>images = imageRepository.getImageByProductId(productId);
+        images.add(0,image);
         model.addAttribute("images",images);
-        model.addAttribute("mainImg",product.getImageUrl());
         model.addAttribute("product",product);
         model.addAttribute("totalImg",images.size());
 
