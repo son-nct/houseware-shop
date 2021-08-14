@@ -62,7 +62,7 @@
                         </td>
                         <td>
                             <input type="number" min="1" th:max="*{cart.productQuantity}" class="pl-1" name="quantity1"
-                                   th:value="*{cart.getQuantity()   }"
+                                    th:value="*{cart.getQuantity()}"
                                    style="width: 60px">
                         </td>
                         <td th:text="'$'+*{cart.productPrice * cart.quantity}">
@@ -84,7 +84,7 @@
                     <a th:href="@{/deleteAllCart}" class="btn btn-danger"><i class="fas fa-trash mr-2"></i>Delete
                         Cart</a>
 
-                    <a href="./checkout.html" class="btn btn-success ml-2">Continue
+                    <a th:href="@{/checkout}" class="btn btn-success ml-2">Continue
                         <i class="fas fa-arrow-right ml-2"></i>
                     </a>
                 </div>

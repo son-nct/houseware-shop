@@ -37,8 +37,8 @@
 
         <form th:action="@{/search}" id="frm">
             <div class="search-box">
-                <input class="search-txt" name="keyword" type="text" placeholder="Type to search">
-                <input type="hidden" th:value="${page}" name="page">
+                <input class="search-txt" name="keyword" th:value="${keyword}" type="text" placeholder="Type to search">
+                <input type="hidden" th:value="${curPage}" name="page">
                 <a th:onclick="this.form.submit()" class="search-btn">
                     <i class="fas fa-search text-center" style="margin-top:12px;color: white"></i>
                 </a>
@@ -50,7 +50,7 @@
                    style="color: green; font-size: 2.5rem" role="button" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-cart-plus mr-2" style="color: #e9ecef; font-size: 2.5rem"></i>
-                    <sup th:if="${session.CART} and ${session.CART.size()}!=0" style="color: #fcae00 !important"
+                    <sup  th:if="${session.CART} and ${session.CART.size()}!=0" style="color: #fcae00 !important"
                          th:text="${session.CART.size()}">5</sup>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -62,7 +62,6 @@
                                 <td class="f-small"><a href="#" th:text="*{c.productName}">Repair Tool</a></td>
                                 <td class="px-3 f-small" th:text="' x '+ *{c.quantity}">x 1</td>
                             </tr>
-
                             </tbody>
                         </table>
                     </div>

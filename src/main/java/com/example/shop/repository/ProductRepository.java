@@ -23,4 +23,6 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
 
     public Product getProductById(Long id);
 
+    @Query(value = "select p from Product  p where concat(p.name, p.description) like %?1%")
+    public Page<Product> searchPagination(String keyword, Pageable pageable);
 }
