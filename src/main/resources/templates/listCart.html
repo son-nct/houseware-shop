@@ -52,7 +52,7 @@
                     <tbody>
 
                     <tr th:each="cart,track :${listCart}">
-                        <td th:text="*{track.index}"></td>
+                        <td th:text="*{track.index + 1}"></td>
                         <td>
                             <img th:src="@{'/images/'+*{cart.getProductImageUrl()}}" style="width: 100px">
                         </td>
@@ -65,11 +65,11 @@
                                    th:value="*{cart.getQuantity()   }"
                                    style="width: 60px">
                         </td>
-                        <td th:text="'$'+   *{cart.productPrice * cart.quantity}">
+                        <td th:text="'$'+*{cart.productPrice * cart.quantity}">
                             $16.61
                         </td>
                         <td>
-                            <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                            <a th:href="@{'/deleteCart?productId='+*{cart.productId}}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
                         </td>
                     </tr>
 
@@ -81,10 +81,9 @@
                 </div>
                 <hr>
                 <div class="text-right">
-                    <a href="#" class="btn btn-danger"><i class="fas fa-trash mr-2"></i>Delete
+                    <a th:href="@{/deleteAllCart}" class="btn btn-danger"><i class="fas fa-trash mr-2"></i>Delete
                         Cart</a>
 
-                    <!--                                <button type="submit" class="btn btn-info ml-2"><i class="fas fa-sync-alt mr-2"></i>Update Cart</button>-->
                     <a href="./checkout.html" class="btn btn-success ml-2">Continue
                         <i class="fas fa-arrow-right ml-2"></i>
                     </a>

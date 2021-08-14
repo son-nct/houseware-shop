@@ -148,6 +148,33 @@ public class MainController {
         }
     }
 
+    @GetMapping("/deleteCart")
+    public String deleteProduct(HttpSession session, @RequestParam("productId")Long productId) {
+        List<Cart>listCart = (List<Cart>) session.getAttribute("CART");
+
+        for (Cart cart: listCart) {
+            if(cart.getProductId().equals(productId)) {
+                listCart.remove(cart);
+                break;
+            }
+        }
+
+
+        session.setAttribute("CART",listCart);
+
+        if(listCart.size() > 0) {
+            return "redirect:/carts";
+        }else {
+            return "emptyCart";
+        }
+    }
+
+    @GetMapping("/deleteAllCart")
+    public String deleteAllCart(HttpSession session) {
+        session.removeAttribute("CART");
+        return "redirect:/carts";
+    }
+
     @GetMapping("/checkout")
     public String checkout() {
         return "checkout";
