@@ -50,14 +50,14 @@
                    style="color: green; font-size: 2.5rem" role="button" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-cart-plus mr-2" style="color: #e9ecef; font-size: 2.5rem"></i>
-                    <sup th:if="${session.listCart} and ${session.listCart.size()}!=0" style="color: #fcae00 !important"
-                         th:text="${session.listCart.size()}">5</sup>
+                    <sup th:if="${session.CART} and ${session.CART.size()}!=0" style="color: #fcae00 !important"
+                         th:text="${session.CART.size()}">5</sup>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <div class="popup-list-cart">
                         <table>
                             <tbody>
-                            <tr th:each="c: ${session.listCart}">
+                            <tr th:each="c: ${session.CART}">
                                 <td class="px-2"><img th:src="'images/'+*{c.productImageUrl}"></td>
                                 <td class="f-small"><a href="#" th:text="*{c.productName}">Repair Tool</a></td>
                                 <td class="px-3 f-small" th:text="' x '+ *{c.quantity}">x 1</td>
