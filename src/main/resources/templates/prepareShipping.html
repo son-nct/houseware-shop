@@ -49,92 +49,20 @@
                                 <th>Total Price</th>
                             </tr>
 
-                            <tr>
-                                <td>1</td>
+                            <tr th:each="cart,track:${cartList}">
+                                <td th:text="*{track.index + 1}">1</td>
                                 <td>
-                                    <img th:src="@{/static/images/tools/1_0.jpg}" style="width: 100px">
+                                    <img th:src="@{'/images/'+*{cart.getProductImageUrl()}}" style="width: 100px">
                                 </td>
-                                <td>Repair Tool</td>
-                                <td>
+                                <td th:text="*{cart.getProductName()}">Repair Tool</td>
+                                <td th:text="'$ '+*{cart.getProductPrice()}">
                                     $16.61
                                 </td>
-                                <td>
+                                <td th:text="*{cart.getQuantity()}">
                                     1
                                 </td>
-                                <td>
+                                <td th:text="'$ '+*{cart.getQuantity() * cart.getProductPrice()}">
                                     $16.61
-                                </td>
-                            </tr>
-
-
-                            <tr>
-                                <td>2</td>
-                                <td>
-                                    <img th:src="@{/static/images/tools/2_0.jpg}" style="width: 100px">
-                                </td>
-                                <td>Measure Tools</td>
-                                <td>
-                                    $9.27
-                                </td>
-                                <td>
-                                    1
-                                </td>
-                                <td>
-                                    $9.27
-                                </td>
-                            </tr>
-
-
-                            <tr>
-                                <td>3</td>
-                                <td>
-                                    <img th:src="@{/static/images/tools/3_0.jpg}" style="width: 100px">
-                                </td>
-                                <td>Manual Screw</td>
-                                <td>
-                                    $8.60
-                                </td>
-                                <td>
-                                    1
-                                </td>
-                                <td>
-                                    $8.60
-                                </td>
-                            </tr>
-
-
-                            <tr>
-                                <td>4</td>
-                                <td>
-                                    <img th:src="@{/static/images/tools/4_0.jpg}" style="width: 100px">
-                                </td>
-                                <td>Painting Brush</td>
-                                <td>
-                                    $5.93
-                                </td>
-                                <td>
-                                    1
-                                </td>
-                                <td>
-                                    $5.93
-                                </td>
-                            </tr>
-
-
-                            <tr>
-                                <td>5</td>
-                                <td>
-                                    <img th:src="@{/static/images/tools/5_0.jpg}" style="width: 100px">
-                                </td>
-                                <td>Hiro Crimping Pliers</td>
-                                <td>
-                                    $15.36
-                                </td>
-                                <td>
-                                    1
-                                </td>
-                                <td>
-                                    $15.36
                                 </td>
                             </tr>
 
@@ -143,7 +71,7 @@
                         </table>
                         <hr>
                         <div class="text-right">
-                            <h4>Total price:$55.77</h4>
+                            <h4 th:inline="text">Total price: $[[${totalMoney}]]</h4>
                         </div>
                     </div>
                 </div>
@@ -152,25 +80,28 @@
                         <div class="mt-5"><a href="./thanks.html" class="btn btn-outline-success ml-auto w-100">Shipping
                             to this address</a></div>
                         <div class="mt-3"><a onclick="document.getElementById('address').style.display = 'block'"
-                                             class="btn btn-outline-info ml-auto w-100">Shipping to another address</a></div>
+                                             class="btn btn-outline-info ml-auto w-100">Shipping to another address</a>
+                        </div>
                     </div>
 
                     <div class="col-md-9 mt-3">
                         <th:form id="inf" action="prepare-shipping" method="post"
-                              style="border: 1px solid #ced4da !important; border-radius: 5px !important">
+                                 style="border: 1px solid #ced4da !important; border-radius: 5px !important">
                             <div class="card">
-                                <div class="card-body">
+                                <div th:object="${shipping}" class="card-body">
                                     <h4 style="color: orange">Adress Shipping</h4>
                                     <h6 style="overflow: visible !important">Products will be delivered at the address
                                         below</h6><br>
-                                    <div>Full Name:<span class="ml-4"> <b>Nguyễn Thị Ánh</b><span></span></span></div>
-                                    <input type="hidden" name="name" value="Nguyễn Thị Ánh">
-                                    <input type="hidden" name="mobile" value="0123456789">
-                                    <input type="hidden" name="address" value="Thái Bình">
-                                    <input type="hidden" name="note" value="Hàng dễ vỡ, ship cẩn thận nhé !!!!!!">
-                                    <div>Phone number: <span class="ml-4">0123456789<span></span></span></div>
-                                    <div>Address: <span class="ml-4">Thái Bình</span></div>
-                                    <div>Note <span class="ml-4">Hàng dễ vỡ, ship cẩn thận nhé !!!!!!</span></div>
+                                    <div th:inline="text">Full Name:<span class="ml-4"> <b>[[*{name}]]</b><span></span></span>
+                                    </div>
+                                    <input type="hidden" name="name" th:value="*{name}">
+                                    <input type="hidden" name="mobile" th:value="*{phone}">
+                                    <input type="hidden" name="address" th:value="*{address}">
+                                    <input type="hidden" name="note" th:value="${note}">
+                                    <div th:inline="text">Phone number: <span
+                                            class="ml-4">[[*{phone}]]<span></span></span></div>
+                                    <div th:inline="text">Address: <span class="ml-4">[[*{address}]]</span></div>
+                                    <div th:inline="text">Note: <span class="ml-4">[[${note}]]</span></div>
                                 </div>
                             </div>
                         </th:form>
@@ -189,30 +120,30 @@
                                 <h4 class="mt-3" style="color: orange">Infomation of Customer</h4>
                                 <div class="card mt-3">
                                     <div class="card-body">
-                                        <th:form action="./thanks.html">
-                                            <div class="th:form-group">
-                                                <label th:for="name">Full Name</label>
-                                                <input type="text" name="name" class="th:form-control"
+                                        <form action="./thanks.html">
+                                            <div class="form-group">
+                                                <label for="name">Full Name</label>
+                                                <input type="text" name="name" class="form-control"
                                                        placeholder="Enter name">
-                                                <small id="emailHelp" class="th:form-text text-muted">We'll never share
+                                                <small id="emailHelp" class="form-text text-muted">We'll never share
                                                     your email with anyone else.</small>
                                             </div>
-                                            <div class="th:form-group">
-                                                <label th:for="sdt">Phone number</label>
-                                                <input type="number" name="mobile" class="th:form-control"
+                                            <div class="form-group">
+                                                <label for="sdt">Phone number</label>
+                                                <input type="number" name="mobile" class="form-control"
                                                        placeholder="enter phone number">
                                             </div>
-                                            <div class="th:form-group">
-                                                <label th:for="address">Address</label>
-                                                <textarea class="th:form-control" rows="3" name="address"></textarea>
+                                            <div class="form-group">
+                                                <label for="address">Address</label>
+                                                <textarea class="form-control" rows="3" name="address"></textarea>
                                             </div>
-                                            <div class="th:form-group">
-                                                <label th:for="address">Note</label>
-                                                <textarea class="th:form-control" rows="3" name="note"></textarea>
+                                            <div class="form-group">
+                                                <label for="address">Note</label>
+                                                <textarea class="form-control" rows="3" name="note"></textarea>
                                             </div>
 
                                             <button type="submit" class="btn btn-success w-100">Accept</button>
-                                        </th:form>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -223,7 +154,6 @@
         </div>
     </div>
 </div>
-
 
 
 <div id="prepare-shipping-footer" th:replace="~{/fragments/app-fragments :: copyright}">

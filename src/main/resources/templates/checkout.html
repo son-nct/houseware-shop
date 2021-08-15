@@ -49,8 +49,8 @@
                         <th>Total Price</th>
                     </tr>
 
-                    <tr th:each="cart:${listCart}">
-                        <td>1</td>
+                    <tr th:each="cart,track:${listCart}">
+                        <td th:text="${track.index + 1}">1</td>
                         <td>
                             <img th:src="@{'/images/'+*{cart.getProductImageUrl()}}" style="width: 100px">
                         </td>

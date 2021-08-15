@@ -1,9 +1,6 @@
 package com.example.shop.controller;
 
-import com.example.shop.entity.Cart;
-import com.example.shop.entity.Category;
-import com.example.shop.entity.Image;
-import com.example.shop.entity.Product;
+import com.example.shop.entity.*;
 import com.example.shop.repository.CategoryRepository;
 import com.example.shop.repository.ImageRepository;
 import com.example.shop.repository.ProductRepository;
@@ -182,6 +179,11 @@ public class MainController {
         final int PAGE_SIZE = 20;
         Page<Product> products = productRepository.searchPagination(keyword, PageRequest.of(page - 1, PAGE_SIZE));
 
+        if (products.getContent().size() == 0) {
+            products = productRepository.searchPagination(keyword, PageRequest.of(0, PAGE_SIZE));
+            page = 1;
+        }
+
         List<Category> categories = categoryRepository.findAll();
 
         model.addAttribute("curPage", page);
@@ -191,6 +193,21 @@ public class MainController {
         model.addAttribute("keyword", keyword);
         return "listProduct";
 
+    }
+
+    @GetMapping("/update-quantity")
+    public String updateQuantity(Model model, HttpSession session, @RequestParam("quantity") Integer quantity,
+                                 @RequestParam("productId") Long productId) {
+        List<Cart> cartList = (List<Cart>) session.getAttribute("CART");
+        for (Cart cart : cartList) {
+            if(cart.getProductId().equals(productId)) {
+                cart.setQuantity(quantity);
+                break;
+            }
+        }
+
+        session.setAttribute("CART",cartList);
+        return "redirect:/carts";
     }
 
     @GetMapping("/checkout")
@@ -208,7 +225,27 @@ public class MainController {
     }
 
     @GetMapping("/prepare-shipping")
-    public String prepareShipping() {
+    public String prepareShipping(HttpSession session,Model model, @RequestParam("name")String fullName,
+                                  @RequestParam("phone")String phone,
+                                  @RequestParam("address")String address,
+                                  @RequestParam("note")String note) {
+        Shipping shipping = new Shipping();
+        shipping.setName(fullName);
+        shipping.setPhone(phone);
+        shipping.setAddress(address);
+        model.addAttribute("note",note);
+
+        List<Cart>cartList = (List<Cart>) session.getAttribute("CART");
+        double totalMoney = 0;
+        for (Cart cart: cartList) {
+             totalMoney += cart.getQuantity() * cart.getProductPrice();
+        }
+
+        totalMoney = Math.ceil(totalMoney * 100) / 100;
+        model.addAttribute("totalMoney",totalMoney);
+        model.addAttribute("shipping",shipping);
+        model.addAttribute("cartList",cartList);
+
         return "prepareShipping";
     }
 }

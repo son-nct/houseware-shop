@@ -32,26 +32,27 @@
     <div class="container" style="margin-top: 7rem">
         <div class="mt-3">
             <h4>Shopping Cart</h4>
-            <form id="formQuantity" action="#" method="get">
 
-                <span style="display: none">16.61</span><span style="display: none">25.88</span><span
-                    style="display: none">34.48</span><span style="display: none">40.41</span><span
-                    style="display: none">55.769999999999996</span>
-                <table class="w-100 table table-striped mt-3">
-                    <thead>
-                    <tr>
-                        <th>STT</th>
-                        <th>Image</th>
-                        <th>Name of Product</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Total Price</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
 
-                    <tr th:each="cart,track :${listCart}">
+            <span style="display: none">16.61</span><span style="display: none">25.88</span><span
+                style="display: none">34.48</span><span style="display: none">40.41</span><span
+                style="display: none">55.769999999999996</span>
+            <table class="w-100 table table-striped mt-3">
+                <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Image</th>
+                    <th>Name of Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total Price</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr th:each="cart,track :${listCart}">
+                    <form id="formQuantity" th:action="update-quantity" method="get">
                         <td th:text="*{track.index + 1}"></td>
                         <td>
                             <img th:src="@{'/images/'+*{cart.getProductImageUrl()}}" style="width: 100px">
@@ -61,34 +62,38 @@
                             $16.61
                         </td>
                         <td>
-                            <input type="number" min="1" th:max="*{cart.productQuantity}" class="pl-1" name="quantity1"
-                                    th:value="*{cart.getQuantity()}"
+                            <input type="hidden" th:value="*{cart.getProductId()}" name="productId"/>
+                            <input th:onchange="this.form.submit()" type="number" min="1"
+                                   th:max="*{cart.productQuantity}" class="pl-1" name="quantity"
+                                   th:value="*{cart.getQuantity()}"
                                    style="width: 60px">
                         </td>
                         <td th:text="'$'+*{cart.productPrice * cart.quantity}">
                             $16.61
                         </td>
                         <td>
-                            <a th:href="@{'/deleteCart?productId='+*{cart.productId}}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                            <a th:href="@{'/deleteCart?productId='+*{cart.productId}}" class="btn btn-danger"><i
+                                    class="fas fa-trash"></i></a>
                         </td>
-                    </tr>
+                    </form>
+                </tr>
 
-                    </tbody>
-                </table>
-                <hr>
-                <div class="text-right">
-                    <h4 th:text="'Total Money: $'+${totalMoney}">Total Money:$55.77</h4>
-                </div>
-                <hr>
-                <div class="text-right">
-                    <a th:href="@{/deleteAllCart}" class="btn btn-danger"><i class="fas fa-trash mr-2"></i>Delete
-                        Cart</a>
+                </tbody>
+            </table>
+            <hr>
+            <div class="text-right">
+                <h4 th:text="'Total Money: $'+${totalMoney}">Total Money:$55.77</h4>
+            </div>
+            <hr>
+            <div class="text-right">
+                <a th:href="@{/deleteAllCart}" class="btn btn-danger"><i class="fas fa-trash mr-2"></i>Delete
+                    Cart</a>
 
-                    <a th:href="@{/checkout}" class="btn btn-success ml-2">Continue
-                        <i class="fas fa-arrow-right ml-2"></i>
-                    </a>
-                </div>
-            </form>
+                <a th:href="@{/checkout}" class="btn btn-success ml-2">Continue
+                    <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+
         </div>
 
 
