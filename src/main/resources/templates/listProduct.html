@@ -43,14 +43,14 @@
                         Product</a>
 
                     <div th:each="category:${categories}">
-                        <a class="pt-4" th:href="@{'/products?page='+${curPage}+'&categoryId='+*{category.id}}"
+                        <a class="pt-4" th:href="@{'/products?page='+${curPage > 1 ? 1 : curPage    }+'&categoryId='+*{category.id}}"
                            style="color: #8400e7 !important; margin-left: 5px;font-size: 20px"
                            th:text="*{category.categoryName}">Tools</a>
 
                         <span th:each="subCategory:*{category.subCategories}" class="d-inline-block" tabindex="0"
                               data-toggle="tooltip" title="Hand Tools">
                             <a class="pl-3 subCategory"
-                               th:href="@{'/products?page='+${curPage}+'&subCategoryId='+*{subCategory.id}}">
+                               th:href="@{'/products?page='+${curPage > 1 ? 1 : curPage}+'&subCategoryId='+*{subCategory.id}}">
                                 <li th:text="*{subCategory.subCategoryName}">Hand Tools</li>
                             </a>
                         </span>
@@ -90,7 +90,7 @@
                 </div>
 
 
-                <nav th:if="${totalPage} > 1 and ${noCategory} == 'true'" aria-label="Page navigation example">
+                <nav th:if="${totalPage} > 1 and ${noCategory} == 'true' and ${keyword} == ''" aria-label="Page navigation example">
                     <ul class="pagination justify-content-end">
                         <li th:each="index: ${#numbers.sequence(1, totalPage)}" class="page-item"
                             th:classappend="(${curPage}==*{index})?'active':''">
@@ -100,7 +100,7 @@
                     </ul>
                 </nav>
 
-                <nav th:if="${totalPage} > 1 and ${noCategory} == 'false'" aria-label="Page navigation example">
+                <nav th:if="${totalPage} > 1 and ${noCategory} == 'false' and ${keyword} == ''" aria-label="Page navigation example">
                     <ul class="pagination justify-content-end">
                         <li th:each="index: ${#numbers.sequence(1, totalPage)}" class="page-item"
                             th:classappend="(${curPage}==*{index})?'active':''">
@@ -110,6 +110,15 @@
                     </ul>
                 </nav>
 
+                <nav th:if="${totalPage} > 1 and ${keyword} != ''" aria-label="Page navigation example">
+                    <ul class="pagination justify-content-end">
+                        <li th:each="index: ${#numbers.sequence(1, totalPage)}" class="page-item"
+                            th:classappend="(${curPage}==*{index})?'active':''">
+                            <a th:href="@{'/search?keyword='+${keyword}+'&page='+ ${index}}" th:text="*{index}"
+                               class="page-link" href="#"></a>
+                        </li>
+                    </ul>
+                </nav>
 
                 <div class="row mb-5">
 
@@ -150,7 +159,7 @@
 
                 </div>
 
-                <nav th:if="${totalPage} > 1 and ${noCategory} == 'true'" aria-label="Page navigation example">
+                <nav th:if="${totalPage} > 1 and ${noCategory} == 'true' and ${keyword} == ''" aria-label="Page navigation example">
                     <ul class="pagination justify-content-end">
                         <li th:each="index: ${#numbers.sequence(1, totalPage)}" class="page-item"
                             th:classappend="(${curPage}==*{index})?'active':''">
@@ -160,11 +169,21 @@
                     </ul>
                 </nav>
 
-                <nav th:if="${totalPage} > 1 and ${noCategory} == 'false'" aria-label="Page navigation example">
+                <nav th:if="${totalPage} > 1 and ${noCategory} == 'false' and ${keyword} == ''" aria-label="Page navigation example">
                     <ul class="pagination justify-content-end">
                         <li th:each="index: ${#numbers.sequence(1, totalPage)}" class="page-item"
                             th:classappend="(${curPage}==*{index})?'active':''">
                             <a th:href="@{'/products?page='+*{index}+'&categoryId='+ ${categoryId}}" th:text="*{index}"
+                               class="page-link" href="#"></a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <nav th:if="${totalPage} > 1 and ${keyword} != ''" aria-label="Page navigation example">
+                    <ul class="pagination justify-content-end">
+                        <li th:each="index: ${#numbers.sequence(1, totalPage)}" class="page-item"
+                            th:classappend="(${curPage}==*{index})?'active':''">
+                            <a th:href="@{'/search?keyword='+${keyword}+'&page='+ ${index}}" th:text="*{index}"
                                class="page-link" href="#"></a>
                         </li>
                     </ul>

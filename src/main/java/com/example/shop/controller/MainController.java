@@ -52,16 +52,19 @@ public class MainController {
         Page<Product> products = null;
 
 
+
         if (subCategoryId != -1) {
 
             products = productRepository.findBySubCategoryId(subCategoryId, PageRequest.of(0, PAGE_SIZE));
-            page = 1;
+
 
             //khi xài page ==> để lấy dc size page ==> objPage.getContent().size()
             if (products.getContent().size() == 0) {
                 products = productRepository.findBySubCategoryId(subCategoryId, PageRequest.of(0, PAGE_SIZE));
                 page = 1;
             }
+
+
 
         } else if (categoryId != -1) {
 
@@ -74,7 +77,6 @@ public class MainController {
                 int oldCategoryId = Integer.parseInt(checkExistCategoryId);
                 if (oldCategoryId != categoryId) {
                     products = productRepository.findByCategoryId(categoryId, PageRequest.of(0, PAGE_SIZE));
-                    page = 1;
 
 
                 } else {
@@ -105,6 +107,7 @@ public class MainController {
         model.addAttribute("products", products);
         model.addAttribute("categories", categories);
         model.addAttribute("totalPage", products.getTotalPages());
+        model.addAttribute("keyword","");
         return "listProduct";
     }
 
@@ -213,6 +216,7 @@ public class MainController {
         final int PAGE_SIZE = 20;
         Page<Product> products = productRepository.searchPagination(keyword, PageRequest.of(page - 1, PAGE_SIZE));
 
+
         if (products.getContent().size() == 0) {
             products = productRepository.searchPagination(keyword, PageRequest.of(0, PAGE_SIZE));
             page = 1;
@@ -221,6 +225,8 @@ public class MainController {
         List<Category> categories = categoryRepository.findAll();
 
         model.addAttribute("curPage", page);
+        model.addAttribute("page", page);
+
         model.addAttribute("products", products);
         model.addAttribute("categories", categories);
         model.addAttribute("totalPage", products.getTotalPages());

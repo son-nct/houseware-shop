@@ -37,8 +37,8 @@
 
         <form th:action="@{/search}" id="frm">
             <div class="search-box">
-                <input class="search-txt" name="keyword" th:value="${keyword}" type="text" placeholder="Type to search">
-                <input type="hidden" th:value="${curPage}" name="page">
+                <input class="search-txt" name="keyword" th:value="${keyword != null ? keyword : ''}" type="text" placeholder="Type to search">
+                <input type="hidden" th:value="1" name="page">
                 <a th:onclick="this.form.submit()" class="search-btn">
                     <i class="fas fa-search text-center" style="margin-top:12px;color: white"></i>
                 </a>

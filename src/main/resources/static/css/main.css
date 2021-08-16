@@ -1,9 +1,8 @@
-*{
+* {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
 }
-
 
 
 body {
@@ -12,7 +11,7 @@ body {
 
 
 /* css button in navbar */
-.btn-group:hover>.dropdown-menu {
+.btn-group:hover > .dropdown-menu {
     display: block;
 }
 
@@ -21,7 +20,7 @@ body {
 }
 
 #login {
-    border-radius: .25 rem !important;
+    border-radius: .25rem !important;
 }
 
 .btn-outline-warning {
@@ -33,6 +32,7 @@ body {
     color: white;
     background-color: #00ACE9;
 }
+
 /* end css button in navbar */
 
 
@@ -77,148 +77,153 @@ body {
 }
 
 @media screen and (max-height: 450px) {
-    .sidenav {padding-top: 15px;}
-    .sidenav a {font-size: 18px;}
+    .sidenav {
+        padding-top: 15px;
+    }
+
+    .sidenav a {
+        font-size: 18px;
+    }
 }
 
 
-
-
-
-
 /*more button*/
-body{
+body {
     margin: 0;
     padding: 0;
 
 }
-.middle{
+
+.middle {
     position: absolute;
     transform: translateY(-50%);
     width: 100%;
     display: flex;
     justify-content: center;
 }
-.text{
+
+.text {
     color: whitesmoke;
     font-size: 50px;
     font-family: "montserrat";
     font-weight: 700;
     cursor: pointer;
 }
-.hidden{
+
+.hidden {
     max-width: 0;
     opacity: 0;
     transition: 0.3s ease-in;
 }
-.text:hover .hidden{
+
+.text:hover .hidden {
     opacity: 1;
     max-width: 1em;
 }
 
-.text:hover{
+.text:hover {
     color: red;
 }
 
 /*end   -   more button*/
 
 
-
-
 /*submenu*/
-*{
-    padding:0;
-    margin:0;
+* {
+    padding: 0;
+    margin: 0;
 
 }
 
 
-.navigationDesktop{
-    box-sizing:border-box;
+.navigationDesktop {
+    box-sizing: border-box;
     margin-left: 1.5rem;
     margin-bottom: 0.6rem;
 }
 
 .nav {
     /*height:40px;*/
-    display:block;
-    margin:0 0;
+    display: block;
+    margin: 0 0;
     text-align: center;
     /*text-transform: uppercase;*/
 }
 
-.link{
-    display:block;
+.link {
+    display: block;
     text-decoration: none;
     font-family: "Lato", sans-serif;
-    font-size:13pt;
-    color:white;
+    font-size: 13pt;
+    color: white;
 }
 
-.link:hover{
-    background:#00ACE9 !important;
-    color:white;
+.link:hover {
+    background: #00ACE9 !important;
+    color: white;
 }
 
-.nav ul{
+.nav ul {
     list-style: none !important;
 }
 
-.nav ul li{
-    float:left;
-    width:140px;
-    height:40px;
+.nav ul li {
+    float: left;
+    width: 140px;
+    height: 40px;
     line-height: 40px;
-    background:#404040;
+    background: #404040;
 }
 
-.sublink{
-    position:relative;
-    display:none;
+.sublink {
+    position: relative;
+    display: none;
 }
 
-.nav ul ul ul{
-    display:none;
+.nav ul ul ul {
+    display: none;
 }
 
-.nav ul li:hover ul li{
+.nav ul li:hover ul li {
     display: block;
     animation: navmenu 500ms forwards;
 }
 
-@keyframes navmenu{
-    0%{
-        opacity:0;
-        top:5px;
+@keyframes navmenu {
+    0% {
+        opacity: 0;
+        top: 5px;
     }
-    100%{
-        opacity:1;
-        top:0px;
+    100% {
+        opacity: 1;
+        top: 0px;
     }
 }
 
-.nav ul ul li:hover ul{
-    display:block;
-    position:absolute;
-    width:140px;
-    left:140px;
-    top:0px;
+.nav ul ul li:hover ul {
+    display: block;
+    position: absolute;
+    width: 140px;
+    left: 140px;
+    top: 0px;
 }
+
 /*end  -   submenu*/
 
-.category a{
+.category a {
     display: block;
     color: #000;
     padding: 5px 0px;
 }
+
 .category a:hover {
     text-decoration: none;
     color: #007bff;
 }
 
-.card a{
+.card a {
     display: block;
-    color:#000;
+    color: #000;
 }
 
 .card a:hover {
@@ -268,7 +273,7 @@ body{
 /* On hover, add a black background color with a little bit see-through */
 .prevs:hover,
 .nexts:hover {
-    color: #0077ff!important
+    color: #0077ff !important
 }
 
 /* Number text (1/3 etc) */
@@ -297,7 +302,7 @@ body{
     margin-left: 4.8%
 }
 
-.column:hover{
+.column:hover {
     border: 1px solid red;
     width: 13%;
 }
@@ -314,32 +319,29 @@ body{
 }
 
 
-.card{
+.card {
     border: none !important;
 }
 
 
-
-
-
-
-
 /*css của trang chủ*/
 
-.card-body p{
-    max-height: 43px ;
+.card-body p {
+    max-height: 43px;
     overflow: hidden;
     color: rgb(51, 51, 51);
     font-size: 13px;
 }
-.card-title:hover{
+
+.card-title:hover {
     color: blue !important;
 }
-.card-text:hover{
+
+.card-text:hover {
     color: gray !important;
 }
 
-.navbar-brand{
+.navbar-brand {
     font-family: cursive;
     font-size: 170%;
     color: #fff !important;
@@ -360,32 +362,27 @@ body{
 }
 
 
-
-
-.search-box{
+.search-box {
     position: absolute;
     top: 50%;
     left: 65%;
-    transform: translate(-50%,-50%);
+    outline: none;
+    border: none;
+    transform: translate(-50%, -50%);
     background: #535c68;
     height: 40px;
     border-radius: 40px;
     padding: 0 13px;
-}
-.search-box:hover > .search-txt{
     width: 20rem;
     padding: 0 10px;
-
-}
-.search-box:hover > .search-btn{
     align-items: center;
 }
-.search-btn{
-    color: #e84118;
+
+
+.search-btn {
     position: relative;
-    /*float: right;*/
-    /*     width: 40px;
-        height: 40px; */
+    float: right;
+    width: 40px;
     line-height: 40px;
     align-items: center;
     border-radius: 50%;
@@ -396,7 +393,8 @@ body{
     transition: 0.4s;
 
 }
-.search-txt{
+
+.search-txt {
     padding: 0 10px;
     border: none;
     background: none;
@@ -407,26 +405,28 @@ body{
     font-size: 16px;
     transition: 0.4s;
     line-height: 40px;
-    width: 0px;
-
+    width: 80%;
 }
 
-.labelhead{
+.labelhead {
     margin-top: 7rem !important;
 }
-.category{
+
+.category {
     padding-top: 1.5rem !important;
 }
-.bg-dark{
+
+.bg-dark {
     background-color: #403434 !important;
 }
-.numbertext{
+
+.numbertext {
     color: blue !important;
 }
-.prev{
+
+.prev {
     left: 0px;
 }
-
 
 
 /*discount*/
@@ -434,10 +434,11 @@ body{
 
 
 /*cart*/
-#cart{
+#cart {
     font-size: 250% !important;
     color: green !important;
 }
+
 /*end-cart*/
 
 
@@ -454,62 +455,74 @@ section .section-title {
     margin-bottom: 50px;
     text-transform: uppercase;
 }
+
 #footer {
     background: #007b5e !important;
 }
-#footer h5{
+
+#footer h5 {
     padding-left: 10px;
     border-left: 3px solid #eeeeee;
     padding-bottom: 6px;
     margin-bottom: 20px;
-    color:#ffffff;
+    color: #ffffff;
 }
+
 #footer a {
     color: #ffffff;
     text-decoration: none !important;
     background-color: transparent;
     -webkit-text-decoration-skip: objects;
 }
-#footer ul.social li{
+
+#footer ul.social li {
     padding: 3px 0;
 }
+
 #footer ul.social li a i {
     margin-right: 5px;
-    font-size:25px;
+    font-size: 25px;
     -webkit-transition: .5s all ease;
     -moz-transition: .5s all ease;
     transition: .5s all ease;
 }
+
 #footer ul.social li:hover a i {
-    font-size:30px;
-    margin-top:-10px;
+    font-size: 30px;
+    margin-top: -10px;
 }
+
 #footer ul.social li a,
-#footer ul.quick-links li a{
-    color:#ffffff;
+#footer ul.quick-links li a {
+    color: #ffffff;
 }
-#footer ul.social li a:hover{
-    color:#eeeeee;
+
+#footer ul.social li a:hover {
+    color: #eeeeee;
 }
-#footer ul.quick-links li{
+
+#footer ul.quick-links li {
     padding: 3px 0;
     -webkit-transition: .5s all ease;
     -moz-transition: .5s all ease;
     transition: .5s all ease;
 }
-#footer ul.quick-links li:hover{
+
+#footer ul.quick-links li:hover {
     padding: 3px 0;
-    margin-left:5px;
-    font-weight:700;
+    margin-left: 5px;
+    font-weight: 700;
 }
-#footer ul.quick-links li a i{
+
+#footer ul.quick-links li a i {
     margin-right: 5px;
 }
+
 #footer ul.quick-links li:hover a i {
     font-weight: 700;
 }
 
-@media (max-width:767px){
+@media (max-width: 767px) {
     #footer h5 {
         padding-left: 0;
         border-left: transparent;
@@ -519,8 +532,6 @@ section .section-title {
 }
 
 /*end-footer*/
-
-
 
 
 #DIV_1 {
@@ -549,7 +560,9 @@ section .section-title {
     font: normal normal 400 normal 12px / 12px "Open Sans", Arial, Helvetica, sans-senif, SimSun, 宋体;
     outline: rgb(255, 255, 255) none 0px;
     overflow: hidden;
-}/*#DIV_1*/
+}
+
+/*#DIV_1*/
 
 #DIV_1:after {
     box-sizing: border-box;
@@ -565,7 +578,9 @@ section .section-title {
     border: 0px none rgb(255, 255, 255);
     font: normal normal 400 normal 12px / 12px "Open Sans", Arial, Helvetica, sans-senif, SimSun, 宋体;
     outline: rgb(255, 255, 255) none 0px;
-}/*#DIV_1:after*/
+}
+
+/*#DIV_1:after*/
 
 #DIV_1:before {
     box-sizing: border-box;
@@ -581,7 +596,9 @@ section .section-title {
     border: 0px none rgb(255, 255, 255);
     font: normal normal 400 normal 12px / 12px "Open Sans", Arial, Helvetica, sans-senif, SimSun, 宋体;
     outline: rgb(255, 255, 255) none 0px;
-}/*#DIV_1:before*/
+}
+
+/*#DIV_1:before*/
 
 #SPAN_2 {
     bottom: 20px;
@@ -606,7 +623,9 @@ section .section-title {
     border: 0px none rgb(255, 255, 255);
     font: normal normal 700 normal 20px / 24px "Open Sans", Arial, Helvetica, sans-senif, SimSun, 宋体;
     outline: rgb(255, 255, 255) none 0px;
-}/*#SPAN_2*/
+}
+
+/*#SPAN_2*/
 
 #SPAN_2:after {
     box-sizing: border-box;
@@ -622,7 +641,9 @@ section .section-title {
     border: 0px none rgb(255, 255, 255);
     font: normal normal 700 normal 20px / 24px "Open Sans", Arial, Helvetica, sans-senif, SimSun, 宋体;
     outline: rgb(255, 255, 255) none 0px;
-}/*#SPAN_2:after*/
+}
+
+/*#SPAN_2:after*/
 
 #SPAN_2:before {
     box-sizing: border-box;
@@ -638,9 +659,9 @@ section .section-title {
     border: 0px none rgb(255, 255, 255);
     font: normal normal 700 normal 20px / 24px "Open Sans", Arial, Helvetica, sans-senif, SimSun, 宋体;
     outline: rgb(255, 255, 255) none 0px;
-}/*#SPAN_2:before*/
+}
 
-
+/*#SPAN_2:before*/
 
 
 /* Cart */
@@ -665,21 +686,20 @@ section .section-title {
 }
 
 
-#navbarDropdown sup{
+#navbarDropdown sup {
     top: -1.4rem !important;
     color: red !important;
     margin-left: -.7rem !important;
     font-size: 1.5rem;
 }
 
-.table td, .table th{
+.table td, .table th {
     vertical-align: middle !important;
     text-align: center !important;
 }
 
 
-
-.subCategory li{
+.subCategory li {
     font-size: 15px;
     font-family: sans-serif;
     list-style-type: circle;
@@ -691,17 +711,17 @@ section .section-title {
     text-overflow: ellipsis;
 }
 
-.card a:hover{
+.card a:hover {
     text-decoration: none;
     color: #e9ecef !important;
 }
-.card img{
+
+.card img {
     border: 1px solid #ededed !important;
 }
 
 
-
-.card .card-body h6{
+.card .card-body h6 {
     width: 188px !important;
     font-size: 13px !important;
     color: rgb(51, 51, 51) !important;
