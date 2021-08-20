@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Controller
 public class MainController {
@@ -36,7 +37,29 @@ public class MainController {
     ShippingRepository shippingRepository;
 
     @GetMapping("/")
-    public String home() {
+    public String home(Model model) {
+        int count = 0;
+
+        String random = "";
+
+        List<Product>listRandom = new ArrayList<>();
+
+        while(count < 12) {
+            random = ThreadLocalRandom.current().nextInt(1,189)+"";
+            Product product = productRepository.getProductById(Long.parseLong(random));
+            listRandom.add(product);
+            count++;
+        }
+
+        model.addAttribute("listRandom",listRandom);
+
+        Page<Product>measureProducts = productRepository.findByCategoryId(2,PageRequest.of(0,12));
+        Page<Product>homeGardenProducts =  productRepository.findByCategoryId(5,PageRequest.of(0,12));
+        Page<Product>toolProducts =  productRepository.findByCategoryId(1,PageRequest.of(0,12));
+
+        model.addAttribute("measureProducts",measureProducts);
+        model.addAttribute("homeGardenProducts",homeGardenProducts);
+        model.addAttribute("toolProducts",toolProducts);
         return "home";
     }
 
@@ -49,9 +72,10 @@ public class MainController {
 
         final int PAGE_SIZE = 20;
         //pageable index từ 0
-        Page<Product> products = null;
+        Page<Product> products = productRepository.findAll(PageRequest.of(page - 1, PAGE_SIZE));
 
-
+        model.addAttribute("noCategory", "true");
+        model.addAttribute("noFilter", "true");
 
         if (subCategoryId != -1) {
 
@@ -63,7 +87,6 @@ public class MainController {
                 products = productRepository.findBySubCategoryId(subCategoryId, PageRequest.of(0, PAGE_SIZE));
                 page = 1;
             }
-
 
 
         } else if (categoryId != -1) {
@@ -97,9 +120,6 @@ public class MainController {
             //khi xài page ==> để lấy dc size page ==> objPage.getContent().size()
 
 
-        } else {
-            products = productRepository.findAll(PageRequest.of(page - 1, PAGE_SIZE));
-            model.addAttribute("noCategory", "true");
         }
         List<Category> categories = categoryRepository.findAll();
 
@@ -107,7 +127,77 @@ public class MainController {
         model.addAttribute("products", products);
         model.addAttribute("categories", categories);
         model.addAttribute("totalPage", products.getTotalPages());
-        model.addAttribute("keyword","");
+        model.addAttribute("keyword", "");
+        return "listProduct";
+    }
+
+
+    @GetMapping("/filter")
+    public String filterByPrice(Model model, @RequestParam(value = "cboPrice", defaultValue = "0") int filterId,
+                                @RequestParam(value = "page", defaultValue = "1") int page) {
+
+        final int PAGE_SIZE = 20;
+
+        model.addAttribute("noCategory", "true");
+        model.addAttribute("noFilter", "false");
+
+        Page<Product> products = productRepository.findAll(PageRequest.of(page - 1, PAGE_SIZE));
+
+
+        switch (filterId) {
+            case 0:
+                products = productRepository.findAll(PageRequest.of(page - 1, PAGE_SIZE));
+
+                if (products.getContent().size() == 0) {
+                    products = productRepository.findAll(PageRequest.of(0, PAGE_SIZE));
+                    page = 1;
+                }
+                break;
+            case 1:
+                products = productRepository.filterProductByPriceBetween(1, 5, PageRequest.of(page - 1, PAGE_SIZE));
+
+                if (products.getContent().size() == 0) {
+                    products = productRepository.filterProductByPriceBetween(1, 5, PageRequest.of(0, PAGE_SIZE));
+                    page = 1;
+                }
+                break;
+            case 2:
+                products = productRepository.filterProductByPriceBetween(5, 10, PageRequest.of(page - 1, PAGE_SIZE));
+
+                if (products.getContent().size() == 0) {
+                    products = productRepository.filterProductByPriceBetween(5, 10, PageRequest.of(0, PAGE_SIZE));
+                    page = 1;
+                }
+                break;
+            case 3:
+                products = productRepository.filterProductByPriceBetween(10, 20, PageRequest.of(page - 1, PAGE_SIZE));
+
+                if (products.getContent().size() == 0) {
+                    products = productRepository.filterProductByPriceBetween(10, 20, PageRequest.of(0, PAGE_SIZE));
+                    page = 1;
+                }
+                break;
+            case 4:
+                products = productRepository.getProductByPriceGreaterThanEqual(20, PageRequest.of(page - 1, PAGE_SIZE));
+
+                if (products.getContent().size() == 0) {
+                    products = productRepository.getProductByPriceGreaterThanEqual(20, PageRequest.of(0, PAGE_SIZE));
+                    page = 1;
+                }
+                break;
+        }
+
+
+        List<Category> categories = categoryRepository.findAll();
+
+        model.addAttribute("curPage", page);
+        model.addAttribute("products", products);
+        model.addAttribute("categories", categories);
+        model.addAttribute("totalPage", products.getTotalPages());
+        model.addAttribute("keyword", "");
+        model.addAttribute("filterId", filterId);
+
+
         return "listProduct";
     }
 
@@ -164,6 +254,45 @@ public class MainController {
         return "redirect:/carts";
     }
 
+
+    @GetMapping("/add-to-cart-homepage")
+    public String addToCartHomePage(Model model, HttpSession session, @RequestParam("productId") Long productId) {
+        Product product = productRepository.getProductById(productId);
+
+        //để dùng dc session thì gọi đến httpSession
+        Cart cart = new Cart();
+        cart.setProductId(productId);
+        cart.setProductCode(product.getCode());
+        cart.setProductName(product.getName());
+        cart.setProductQuantity(product.getQuantity());
+        cart.setProductPrice(product.getPrice());
+        cart.setProductDescription(product.getDescription());
+        cart.setProductImageUrl(product.getImageUrl());
+        cart.setQuantity(1);
+
+        List<Cart> listCart = (List<Cart>) session.getAttribute("CART");
+
+        if (listCart == null) {
+            listCart = new ArrayList<>();
+            listCart.add(cart);
+        } else {
+            boolean isExist = false;
+            for (Cart c : listCart) {
+                if (c.getProductId().equals(productId)) {
+                    isExist = true;
+                    c.setQuantity(c.getQuantity() + 1);
+                }
+
+            }
+            if (!isExist) {
+                listCart.add(cart);
+            }
+
+        }
+        session.setAttribute("CART", listCart);
+        return "redirect:/";
+    }
+
     @GetMapping("/carts")
     public String listCart(HttpSession session, Model model) {
         List<Cart> listCart = (List<Cart>) session.getAttribute("CART");
@@ -215,7 +344,7 @@ public class MainController {
                                 @RequestParam(value = "page", defaultValue = "1") int page) {
         final int PAGE_SIZE = 20;
         Page<Product> products = productRepository.searchPagination(keyword, PageRequest.of(page - 1, PAGE_SIZE));
-
+        model.addAttribute("noFilter", "true");
 
         if (products.getContent().size() == 0) {
             products = productRepository.searchPagination(keyword, PageRequest.of(0, PAGE_SIZE));
@@ -231,6 +360,10 @@ public class MainController {
         model.addAttribute("categories", categories);
         model.addAttribute("totalPage", products.getTotalPages());
         model.addAttribute("keyword", keyword);
+
+        if(keyword.equals("")) {
+            return "redirect:/products";
+        }
         return "listProduct";
 
     }

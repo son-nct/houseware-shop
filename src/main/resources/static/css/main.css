@@ -334,11 +334,11 @@ body {
 }
 
 .card-title:hover {
-    color: blue !important;
+    color: blue;
 }
 
 .card-text:hover {
-    color: gray !important;
+    color: blue;
 }
 
 .navbar-brand {
