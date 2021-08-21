@@ -1,23 +1,20 @@
 package com.example.shop.controller;
 
 import com.example.shop.entity.*;
-import com.example.shop.repository.CategoryRepository;
-import com.example.shop.repository.ImageRepository;
-import com.example.shop.repository.ProductRepository;
-import com.example.shop.repository.ShippingRepository;
+import com.example.shop.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.persistence.GeneratedValue;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -35,6 +32,12 @@ public class MainController {
 
     @Autowired
     ShippingRepository shippingRepository;
+
+    @Autowired
+    OrderRepository orderRepository;
+
+    @Autowired
+    OrderDetailRepository orderDetailRepository;
 
     @GetMapping("/")
     public String home(Model model) {
@@ -397,16 +400,89 @@ public class MainController {
         return "checkout";
     }
 
+    @PostMapping("/prepare-shipping")
+    public String postPrepareShipping(HttpSession session, @RequestParam("name") String fullName,
+                                  @RequestParam("phone") String phone,
+                                  @RequestParam("address") String address,
+                                  @RequestParam("note") String note) {
+
+
+        List<Cart> cartList = (List<Cart>) session.getAttribute("CART");
+        if(cartList == null || cartList.size() == 0) {
+            return "emptyCart";
+        }
+
+        double totalMoney = 0;
+        for (Cart cart : cartList) {
+            totalMoney += cart.getQuantity() * cart.getProductPrice();
+        }
+        totalMoney = Math.ceil(totalMoney * 100) / 100;
+
+
+        Shipping shipping = new Shipping();
+        shipping.setName(fullName.trim());
+        shipping.setPhone(phone.trim());
+        shipping.setAddress(address.trim());
+        shipping = shippingRepository.save(shipping);
+
+        //sau khi tính xong tiền thì lưu vào db
+
+        Order order = new Order();
+        order.setTotalPrice(totalMoney);
+        order.setNote(note);
+
+        Date now = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        order.setCreatedDate(java.sql.Date.valueOf(sdf.format(now)));
+
+        StatusOrder statusOrder = new StatusOrder();
+        statusOrder.setId(1);
+
+        Account account = new Account();
+        account.setId(1);
+
+        order.setStatus(statusOrder);
+        order.setShipping(shipping);
+        order.setAccount(account);
+
+
+        order = orderRepository.save(order);
+
+        for (Cart cart: cartList ) {
+            OrderDetail orderDetail = new OrderDetail();
+            orderDetail.setOrder(order);
+            orderDetail.setQuantity(cart.getQuantity());
+
+            orderDetail.setProductName(cart.getProductName());
+            orderDetail.setProductPrice(cart.getProductPrice());
+            orderDetail.setProductImage(cart.getProductImageUrl());
+
+
+            Product product = new Product();
+            product.setId(cart.getProductId());
+            orderDetail.setProduct(product);
+
+            orderDetailRepository.save(orderDetail);
+        }
+
+
+        return "thanks";
+    }
+
+
     @GetMapping("/prepare-shipping")
     public String prepareShipping(HttpSession session, Model model, @RequestParam("name") String fullName,
                                   @RequestParam("phone") String phone,
                                   @RequestParam("address") String address,
                                   @RequestParam("note") String note) {
+
+
         Shipping shipping = new Shipping();
-        shipping.setName(fullName);
-        shipping.setPhone(phone);
-        shipping.setAddress(address);
-        model.addAttribute("note", note);
+        shipping.setName(fullName.trim());
+        shipping.setPhone(phone.trim());
+        shipping.setAddress(address.trim());
+
 
         session.setAttribute("SHIPPING", shipping);
 
@@ -420,14 +496,12 @@ public class MainController {
         model.addAttribute("totalMoney", totalMoney);
         model.addAttribute("shipping", shipping);
         model.addAttribute("cartList", cartList);
+        model.addAttribute("note", note);
 
         return "prepareShipping";
     }
-
     @GetMapping("/thanks")
     public String thanks(HttpSession session) {
-//        Shipping shipping = (Shipping) session.getAttribute("SHIPPING");
-//        shippingRepository.save(shipping);
         return "thanks";
     }
 }
